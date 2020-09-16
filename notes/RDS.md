@@ -31,9 +31,10 @@
     - MariaDB
 - Aurora by its own architecture is fault tolerant
 - Multi-AZ for disaster recovery
+- You can force a failover from one AZ to another by rebooting the rds instance
 -----------------------
 
-# Read replicas
+# Read Replicas
 - Read replicas allow you to have a read-only copy of your production database. This is achieved  by using asynchronous replciation front the primary RDS instance to the read replica. You use read replicas primarily for very read-heavy database workloads
 - used for scaling, not for Disastar recovery
 - must have automatic backups turned on in order to deploy a read replica.
