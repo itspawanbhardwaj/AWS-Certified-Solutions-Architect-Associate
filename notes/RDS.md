@@ -102,45 +102,63 @@ It is good practice to split databases, one for basic queries and one for analyt
 
 ##### Elastic cache
 
-	- memcache
-		* simple cache to offload DB
-		* Ability to scale horizontally
-		* Multi-threaded performance
-		* in memory key value datastore
-		* fastest cache db available now
-		* The default limit is 20 nodes per cluster.
-		* data types: strings and object
+**Used to increase db and web-apps performance**
 
-	- redis
-		* Redis clusters can only contain a single node; however, you can group multiple clusters together into a replication group.
-		* simple cache to offload DB
-		* Advanced data types
-		* Ranking/Sorting datasets
-		* Pub/Sub capability
-		* persistance
-		* Multi-AZ with auto-failover
-		* Read Replica for read availability
-		* Availability due to partitioning
-		* Backups & restore capability
-		* key-value store
-		* A cluster consists of 1 to 15 shards
-		* Each shard has a primary node and upto 5 replica nodes across multiple AZs for read scaling
-		* increase writes by adding shards
-		* fully managed and Hardened
-		* secure and compliant: VPC
-			* Encryption: 
-				in-transit: Encrypt all communication between clients, server, nodes
-				At-Rest: Encrypt backups on disk and s3
-				Supports redis AUTH
-				Fully managed: setup via API, CLI or console, automatic certificate issuance and renewal
-		* Highly available and reliable: Read replicas, multiple primaries, multi-AZ with automatic failover
-		* Easily scalable: Cluster with up to 6.1 TB of in-memory data 
-		* Read scaling with replicas
-		* Write and memory scaling with sharding
-		* Scale out or in
-		* Detailed monitoring metrices, CloudWatch integration
-		* 
-	* used to increase database and web application performance
+ElastiCache is a web service that makes it easy to deploy, operate and scale an in-memory cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory caches, instead of relying entirely on slower disk-based databases
+
+ElastiCache supports two open-source in-memory caching engines. Difference between them is not important to know for associate leel but **important** at professional level
+
+Requirement | Memcached | Redis 
+--- | --- | ---
+Simple cache to offload DB | Yes | Yes
+Ability to scale horizontally | Yes | No
+Multi-threaded performance | Yes | No
+Advanced data types | No | Yes
+Ranking/Sorting data sets | No | Yes
+Publishing/Subscribing capabilities | No | Yes
+Persistence | No | Yes
+Multi-AZ | No | Yes
+Backup & Restore | No | Yes
+
+- memcached
+	* simple cache to offload DB
+	* Ability to scale horizontally
+	* Multi-threaded performance
+	* in memory key value datastore
+	* fastest cache db available now
+	* The default limit is 20 nodes per cluster.
+	* data types: strings and object
+
+- redis
+	* Redis clusters can only contain a single node; however, you can group multiple clusters together into a replication group.
+	* simple cache to offload DB
+	* Advanced data types
+	* Ranking/Sorting datasets
+	* Pub/Sub capability
+	* persistance
+	* Multi-AZ with auto-failover
+	* Read Replica for read availability
+	* Availability due to partitioning
+	* Backups & restore capability
+	* key-value store
+	* A cluster consists of 1 to 15 shards
+	* Each shard has a primary node and upto 5 replica nodes across multiple AZs for read scaling
+	* increase writes by adding shards
+	* fully managed and Hardened
+	* secure and compliant: VPC
+		* Encryption: 
+			in-transit: Encrypt all communication between clients, server, nodes
+			At-Rest: Encrypt backups on disk and s3
+			Supports redis AUTH
+			Fully managed: setup via API, CLI or console, automatic certificate issuance and renewal
+	* Highly available and reliable: Read replicas, multiple primaries, multi-AZ with automatic failover
+	* Easily scalable: Cluster with up to 6.1 TB of in-memory data 
+	* Read scaling with replicas
+	* Write and memory scaling with sharding
+	* Scale out or in
+	* Detailed monitoring metrices, CloudWatch integration
+	* 
+* used to increase database and web application performance
 
 ----------------------------------
 
@@ -352,3 +370,11 @@ In the event of Multi-AZ failover, any associated and available read replicas wi
 
 Amazon Aurora, Amazon RDS for MySQL and MariaDB: You can create a second-tier read replica from an existing first-tier read replica. By creating a second-tier read replica, you may be able to move some of the replication load from the master database instance to a first-tier Read Replica. Please note that a second-tier Read Replica may lag further behind the master because of additional replication latency introduced as transactions are replicated from the master to the first tier replica and then to the second-tier replica.
 Amazon RDS for PostgreSQL, Amazon RDS for Oracle: Read Replicas of Read Replicas are not currently supported.
+
+
+##### Q: What are the two steps to reduce database overload and make db perform better?
+
+1. Add read replicas and create read replicas of read replicas
+2. Use Elasticache
+
+
