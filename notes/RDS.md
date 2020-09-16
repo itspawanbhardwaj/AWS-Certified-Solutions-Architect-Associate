@@ -1,21 +1,103 @@
-#RDS
+# RDS
 ---
 
-RDS has two key features:
-	- Multi-AZ for disaster recovery
-	- Read Replicas for performance
+**1. RDS (OLTP):**
+- SQL server
+- MySQL
+- PostgreSQL
+- Oracle
+- Aurora
+- MariaDB
 
-RDS (OLTP):
-	- SQL server
-	- MySQL
-	- PostgreSQL
-	- Oracle
-	- Aurora
-	- MariaDB
-DynamoDB (NoSQL)
-Redshift (OLAP)
+**2. Data Warehousing (OLAP)**
+- Redshift
 
----
+**3. DynamoDB (NoSQL)**
+
+
+
+--------------------
+
+# Multi-AZ
+
+- It allows to have SYNCHRONISED replication (exact copy) of rds production database running in different availability zone. All the changes are synced and replicated automaitcally by amazon.
+- If we lose our main rds instance in an avaiability zone, Amazon will automatically update the dns settings and rds endpoint will automatically failover to the rds database in the different availability zone.
+- In the event of planned db mainetenance, DB instance failure or an Avaiability zone failure, aws rds will auomatically failover to the standby rds instance so that db operations can resume quickly without adminsistrative interventaion. Same dns endpoint will failover to the standby instance.
+- Multi-AZ available for
+    - SQL Server
+    - Oracle
+    - MySQL
+    - PostgreSQL
+    - MariaDB
+- Aurora by its own architecture is fault tolerant
+- Multi-AZ for disaster recovery
+-----------------------
+
+# Read replicas
+- Read replicas allow you to have a read-only copy of your production database. This is achieved  by using asynchronous replciation front the primary RDS instance to the read replica. You use read replicas primarily for very read-heavy database workloads
+- used for scaling, not for Disastar recovery
+- must have automatic backups turned on in order to deploy a read replica.
+- you can have up to 5 read replicas copies of any database (but watch out for replication latency)
+- you can have read replica of read replica.
+- each read replica will have its own DNS end point
+- you can have read replica that have Multi-AZ
+- You can create read replica of Multi-AZ source database
+- read replica can be promoted to be thier own database. this breaks the replication
+- You can have a read replica in a second region
+- Read Replicas for performance
+- Available for
+    - MySQL
+    - PostgreSQL
+    - MariaDB
+    - Aurora
+-------------------------------------
+
+# Backups
+Two types of backups
+### **1: Automated backups**: 
+- Automated backups allow you to recover your database to any point in time within a "retention period". **The retention period can be between one and 35 Days**. Automated backups will take a full daily snapshot and will also store transaction logs throughout the day. when you do a recovery, AWS will first choose the most recent daily backup, and then apply transactions logs relevant to that day. This allows you to do a point in time recovery down to a second, within the retention period.
+- enabled by default
+- backup data is stored in s3 and you get free storage space equal to the size of your database.
+- backups are taken within a defined window. During the backup window, storage I/O may be suspended while your data is being backed up and you may experience elevated latency
+
+### **2: Snapshot**:
+- DB snapshots are done manually
+- they are stored even after you delete the original RDS instance, unlike Automated backups
+
+Restoring backups
+-----------------
+Whenever you restore either an automatically backups or db snapshot, the restored version of the database will be a new RDS instance with a new DNS endpoint.
+
+
+--------------------------
+
+# Encryption
+Supported at rest for
+- MySQL
+- Oracle
+- SQL Server
+- PostgreSQL
+- MarioDB
+- Aurora
+ 
+
+Encryption is done using the AWS KMS (Key Management Service). Once your RDS instance is encrypted, the data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas and snapshot
+
+
+-----------------------
+It is good practice to split databases, one for basic queries and one for analytical complex queries.
+
+
+
+---------------------------------
+
+**Multi AZ is available for the following databases:**
+	SQL Server
+	Oracle
+	MySQL server
+	postgres sql
+	mariadb
+
 
 ##### Elastic cache
 
@@ -67,52 +149,7 @@ Patching of the RDS OS and DB is Amazon's responsibility
 RDS is NOT serverless
 Aurora is serverless
 
--------------------------------------
 
-Backups
---------
-Types:
-**Automated**: 
-	- Automated backups allow you to recover your database to any point in time within a "retention period". The retention period can be between one and 35 Days. Automated backups will take a full daily snapshot and will also store transaction logs throughout the day. when you do a recovery, AWS will first choose the most recent daily backup, and then apply transactions logs relevant to that day. This allows you to do a point in time recovery down to a second, within the retention period.
-	- enabled by default
-	- backup data is stored in s3 and you get free storage space equal to the size of your database.
-	- backups are taken within a defined window. During the backup window, storage I/O may be suspended while your data is being backed up and you may experience elevated latency
-
-**Snapshot**:
-	- DB snapshots are done manually
-	- they are stored even after you delete the original RDS instance, unlike Automated backups
-
-Restoring backups
------------------
-Whenever you restore either an automatically backups or db snapshot, the restored version of the database will be a new RDS instance with a new DNS endpoint.
-
---------------------------
-
-Encryption at rest:
-------------------
-	- encryption is done using the AWS KMS. Once your RDS instance is encrypted, the data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas and snapshot
----------------------------------
-
-Multi AZ is available for the following databases:
-	SQL Server
-	Oracle
-	MySQL server
-	postgres sql
-	mariadb
-
------------------------
-
-Read replicas:
-	- Read replicas allow toy to have a read-only copy of your production database. This is achieved  by using asynchronous replciation front he primary RDS instance to the read replica. You use read replicas primarily for  very read-heavy database workloads
-	- used for scaling, not for DR
-	- must have automatic backups turned on in order to deploy a read replica.
-	- you can have up to 5 read replicas copies of any database
-	- you can have read replica of read replica.
-	- each read replica will have its own DNS end point
-	- you can have read replica that have Multi-AZ
-	- You can create read replica of Multi-AZ source database
-	- read replica can be promoted to be thier own database. this breaks the replication
-	- You can have a read replica in a second region
 
 --------------------
 ##### Q: How many DB instances can I run with Amazon RDS?
