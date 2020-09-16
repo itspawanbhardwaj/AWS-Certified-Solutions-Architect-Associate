@@ -1,48 +1,50 @@
 # Redshift
 ---
 
+Amazon redshift is a fast and powerful, fuly managed, petabyte scale dta warehouse service in the cloud. Customers can start small for just $0.25 per hour with no commitments or upfront costs and scale to a petabyte or more for $1000 per tb per year, less than a tenth of most other data warehousing solutions.
+
 Redshift can be configured as follows:
 
-	Single node (160GB)
-	Multi-node:
-		Leader node(manages client connections and receives queries)
-		Compute node(stored and performs queries and computations.) upto 128 compute nodes
+- Single node (160GB)
+- Multi-node:
+    - Leader node(manages client connections and receives queries)
+    - Compute node(stored and performs queries and computations.) upto 128 compute nodes behind leader node
 
 
 Advanced Compression:
 ---
 Columnar data stores can be compressed much more than row-based data stored because similar data is stored sequentially on disk. Amazon redshift employs multi compression techniques and can offer achieve signifficant compression relative to traditional relational data stores. In addition, Amazon redshift doesnt require indexes or materialized views, and so uses less space than traditional relation database systems. When loading data into an empty table, Amazon redshift automatically samples your data and selects the most appropriate compression scheme.
 
-Massive Parallel procesing
+Massive Parallel Procesing (MPP)
 ---
-	Amazon redshift automatically distributes data and query load across all nodes.
-	Amazon redshift makes it easy to add nodes to your data warehouse and enables you to maintain fast query performances as your data warehouse grows.
+- Amazon redshift automatically distributes data and query load across all nodes.
+- Amazon redshift makes it easy to add nodes to your data warehouse and enables you to maintain fast query performances as your data warehouse grows.
 
 Backups
 ---
-	Enabled by default with a 1 day retention period
-	maximnum retention period is 35 days
-	Redshift always attempts to maintain at least three copies of your data (the original and replica on the compute nodes and a backup in S3)
-	Redshift can also asynchronously replicate your snapshots to S3 in another region for disaster recovery
+- Enabled by default with a 1 day retention period
+- maximnum retention period is 35 days
+- Redshift always attempts to maintain at least three copies of your data (the original and replica on the compute nodes and a backup in S3)
+- Redshift can also asynchronously replicate your snapshots to S3 in another region for disaster recovery
 
 Redshift is prices as follows:
 ---
-	Compute node hours
-	Backups
-	Data transfer
+- Compute node hours (total number of hours you run across all your compute nodes for the billing period. You are billed for one unit per node per hour, so a 3-node data warehouse cluster running persistently for an entire month would incur 2,160 instance hours. you will not be charged for leader node hours, only compute nodes will include charges)
+- Backups
+- Data transfer (Only within VPC, not outside it)
 
 Security
 ---
-	Encrypted in transit using SSL
-	Encrypted at rest using AES-256 encryption
-	By default redshift takes care of key management
-		Manage your own through HSM
-		KMS
+- Encrypted in transit using SSL
+- Encrypted at rest using AES-256 encryption
+- By default redshift takes care of key management
+	- Manage your own keys through HSM (Hardware Security Module)
+	- KMS
 
 Redshift Availibility
 ---
 - Currently only available in 1 AZ
-- The cluster is restored in the same region and a random, system-chosen Availability Zone, unless you specify another Availability Zone in your request.
+- Can resotre snapshots to a new AZ in the event of an outage
 
 
 Amazon Redshift uses a **four-tier, key-based architecture** for encryption. These keys consist of data encryption keys, a database key, a cluster key, and a master key.
