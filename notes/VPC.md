@@ -97,7 +97,7 @@ NACL: network account control access list
 ----------------------------------------------
 
 - **Ephemeral ports**: An Ephemeral port is a short lived transport protocol port for internet protocol communications.
-- NAT Gateway uses 124-65535
+- NAT Gateway uses 124-65535 ports
 - VPC automatically comes with a default network ACL, and by default it allows all outbound and inbound traffic.
 - You can create custom network ACLs. By default, each custom network ACL denies all inbound and outbound traffic until you add rules.
 - Each subnet in your VPC must be associated with a network ACL. If you dont explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL.
