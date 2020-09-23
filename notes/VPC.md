@@ -2,6 +2,17 @@
 ---
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html
 
+Amazon virtual private cloud (VPC) lets you provisional logically isolated section of the Amazon Web Services (AWS) cloud where you can launch aws resources in a virtual network that you define. You have complete control over your virtual networking environment including selection of your own IP address range, creation of subnets and configuration of route table and network gateways.
+
+
+VPC Peering
+---
+- Allows you to connect one vpc with another via a direct network route using private IP addresses
+- Instances behave as if they were on the same private network
+- You can peer vpc with other AWS accounts as well as with other vpc's in the same account
+- Peering is in a star configuration that is one Central vpc peers with 4 others. NO TRANSITIVE PEERING. (Transitive peering means you can't peer through one VPC to another)
+- You can peer between regions
+
 Security groups
 ---------------
 - first line of defence
@@ -39,7 +50,8 @@ Use a Public subnet for resources that must be connected to the internet, and a 
 ---
 - Think of a VPC as a logical datacenter in AWS
 - Consists of IGWs (or virtual private gateways), Route tables, network access control lists, subnets and Security groups
-- 1 subnet = 1 AZ
+- 1 subnet can be in 1 AZ
+- 1 AZ can have Multiple subnets
 - Security groups are stateful; Network Access Control Lists are stateless
 - NO TRANSITIVE PEERING
 
@@ -69,13 +81,15 @@ NAT instances
 NAT Gateway:
 ------------
 - Redudant inside the availibility zone
-- preffered by the interprise
+- preffered by the enterprise
 - starts at 5GBps and scales currently to 45Gbps
 - No need to patch
 - Not assocoates with security groups
 - Automatically assigned a public ip address
 - Remember to update your route tables
 - No need to disable Source/ destinaiton checks
+
+If you have resources in multiple availability zones and they share one nat gateway, in the event that the nat gateway's availability zone is down, resources in the other availability zones loose internet access. To create an availability zone-independent architecture, create and nat gateway in each availability zone and configure your routing to ensure that resources use the nat gateway in the same availability zone.
 
 -----------------------------
 
