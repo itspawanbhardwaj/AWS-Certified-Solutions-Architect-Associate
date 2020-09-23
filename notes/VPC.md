@@ -308,3 +308,8 @@ You can have:
 ##### Q. Are there AWS Services that cannot be used over Inter-Region VPC Peering?
 
 Network Load Balancers, AWS PrivateLink and Elastic File System cannot be used over Inter-Region VPC Peering.
+
+
+##### Q. You are trying to do a VPN connection that keeps dropping out because of the amount of throughput. What to do?
+
+Use direct connect
