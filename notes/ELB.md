@@ -36,6 +36,11 @@ Advanced load balancer theory
 - cross zone load balancing enables you to load balance across multiple Availability-Zones
 - Path patterns allow you to direct traffic to different EC2 instances based on the URL contained in the request.
 
+##### Q: The load balancer is sending all the traffic to one ec2 instance and you notice no traffic is being sent to the second ec2 instance, what will you do?
+
+Disable sticky sessions
+
+
 --------------------------------------------------
 
 - Elastic Load Balancing supports the **Server Order Preference** option for negotiating connections between a client and a load balancer. 
