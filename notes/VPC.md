@@ -154,8 +154,14 @@ AWS Direct connect is a cloud service solution that makes it easy to establish a
 
 ---------------------------------------------
 
-There are two types of VPC endpoints:
+VPC endpoints:
 ---
+Vpc endpoint enables you to privately connect your vpc to supported aws services and vpc endpoint services powered by private link without requiring an internet Gateway, nat device, VPN connection, or AWS direct connect connection. Instances in your vpc do not require public IP addresses to communicate with resources in the service. Traffic between your vpc and the other service does not leave the Amazon network. 
+
+Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available vpc component that allow communication between instances in your vpc and services without imposing availability risk or bandwidth constraint on your network Traffic.
+
+There are two types of VPC endpoints
+
 **interface endpoints:**
 * An interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported services.
 
@@ -308,8 +314,3 @@ You can have:
 ##### Q. Are there AWS Services that cannot be used over Inter-Region VPC Peering?
 
 Network Load Balancers, AWS PrivateLink and Elastic File System cannot be used over Inter-Region VPC Peering.
-
-
-##### Q. You are trying to do a VPN connection that keeps dropping out because of the amount of throughput. What to do?
-
-Use direct connect
