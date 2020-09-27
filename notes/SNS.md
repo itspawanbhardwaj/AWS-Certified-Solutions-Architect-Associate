@@ -1,6 +1,13 @@
 # SNS
 -------------
 
+Amazon simple notification service is a web service that makes it easy to set up, operate and send notifications from the cloud.
+
+
+
+It provides developers with the highly scalable, flexible coma and cost-effective capability to publish messages from an application and immediately deliver them to subscribers or other applications
+
+
 ##### Q: How is Amazon SNS different from Amazon SQS?
 
 * Amazon Simple Queue Service (SQS) and Amazon SNS are both messaging services within AWS, which provide different benefits for developers.
