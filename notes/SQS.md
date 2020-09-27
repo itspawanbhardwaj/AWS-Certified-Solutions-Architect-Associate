@@ -12,31 +12,31 @@
 
 ##### Types of queues:
 1) Standard queues (unlimited transaction)
-2) FIFO queues (300 transaction per second)
+    - Amazon sqs offer the standard as the default queue type. Standard you lets you have a nearly unlimited number of transactions per second. Standard queues guarantee that a message is delivered at least one. however, occasionally (because of the highly distributed architecture that allows high throughput) more than one copy of a message might be delivered out of order. Standard gives provide test effort or drawing which ensures that messages are generally delivered in the same order as they are sent.
 
+
+2) FIFO queues (300 transaction per second)
+    - The FIFO queue complements the  standard Q stop the most important features of this cute type are FIFO  delivery and exactly-once processing. The  order in which messages are sent and received is strictly preserved and a message is delivered once and remains available until a consumer processes and deletes it. duplicate are not introduced into the cube
+    - FIFO queues also support message groups that Allow multiple ordered messages groups within a single queue. FIFO queues are limited to 300 transactions per second but have all the capabilities of the standard queues
+
+------
+
+- SQS is pull based, not pushed based. ie, EC2 will pull msgs from sqs, sqs will not push msgs to EC2
+- Msgs are 256 kb in size. We can go utpo 2GB but in that case S3 will be used to store
+- **Visibility time:** Visibility Timeout is the amount of time that the message is in which will in the sqs queue after a reader picks up that message. Provided the job is process before the visibility Timeout expires, the message will then be deleted from the queue. If the job is not processed within that time the message will become visible again and other reader will process it. This could result in the same message being delivered twice.
+- **SQS long polling:** SQS long polling is a way to retrieve mesages from your SQS queue. while the regular short polling returns immediately (even if the message queue being polled is empty), long polling doesnt returns a responses until a message arrives in the message queue, or the long poll times out. (it saves money)
+- **Dead Letter Queues:** Amazon SQS provides support for dead letter queues. A dead letter queue is a queue that other (source) queues can target to send messages that for some reason could not be successfully processed.
+A primary benefit of using a dead letter queue is the ability to sideline and isolate the unsuccessfully processed messages. You can then analyze any messages sent to the dead letter queue to try to determine the cause of failure.
 - Messages can be kept on the queue from 1 mint to 14 days; 
 - The default retention period is 4 days
+- The default time for an Amazon SQS visibility timeout is 30 seconds.
+- The maximum time for an Amazon SQS visibility timeout is 12 hours.
+- The maximum time for an Amazon SQS long polling timeout is 20 seconds.
+- The default message retention period that can be set in Amazon SQS is four days.
+- The longest configurable message retention period for Amazon SQS is 14 days.
+- Topic names should typically be available for reuse approximately 30–60 seconds after the previous topic with the same name has been deleted. The exact time will depend on the number of subscriptions active on the topic; topics with a few subscribers will be
 
-##### Visibility time:
-* max is 12 hours
---- 
-##### SQS long polling
-- SQS long polling is a way to retrieve mesages from your SQS queue. while the regular short polling returns immediately (even if the message queue being polled is empty), long polling doesnt returns a responses until a message arrives in the message queue, or the long poll times out.
 
-----
-##### Dead Letter Queues
-
-Amazon SQS provides support for dead letter queues. A dead letter queue is a queue that other (source) queues can target to send messages that for some reason could not be successfully processed.
-A primary benefit of using a dead letter queue is the ability to sideline and isolate the unsuccessfully processed messages. You can then analyze any messages sent to the dead letter queue to try to determine the cause of failure.
-
--------------
-The default time for an Amazon SQS visibility timeout is 30 seconds.
-The maximum time for an Amazon SQS visibility timeout is 12 hours.
-The maximum time for an Amazon SQS long polling timeout is 20 seconds.
-The default message retention period that can be set in Amazon SQS is four days.
-The longest configurable message retention period for Amazon SQS is 14 days.
-Topic names should typically be available for reuse approximately 30–60 seconds after the previous topic with the same name has been deleted. The exact time will depend on the number of subscriptions active on the topic; topics with a few subscribers will be
-----------------
 ##### Q: How is Amazon SQS different from Amazon SNS?
 
 * Amazon SNS allows applications to send time-critical messages to multiple subscribers through a “push” mechanism, eliminating the need to periodically check or “poll” for updates. Amazon SQS is a message queue service used by distributed applications to exchange messages through a polling model, and can be used to decouple sending and receiving components.
