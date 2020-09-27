@@ -1,0 +1,4 @@
+- Media transcoder in the cloud
+- Convert media files from their original source format un to different formats that will play on smartphones, tables, PCs etc
+- Provides transcoding presets for popular output formats, which means that you don't need to guess about which settings work best on particular devices
+- Pay based on minutes that you transcode and the resoolution at which you transcode
