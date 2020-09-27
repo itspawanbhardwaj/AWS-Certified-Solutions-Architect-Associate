@@ -2,16 +2,17 @@
 ---
 
 
-Amazon simple workflow service is a web service that makes it easy to co-ordinate work across distributed application components. Swf enables applications for a range of use cases, including media processing former web application backends farmer business process workflows farmer and analytics five lines to be design as a coordination of task
+Amazon simple workflow service is a web service that makes it easy to co-ordinate work across distributed application components. SWF enables applications for a range of use cases, including media processing former web application backends farmer business process workflows farmer and analytics five lines to be design as a coordination of task
 
 
+Task represent invocation of previous processing steps in an application which can be performed by executable code, web service calls, human actions, and scripts.
 
 To distinguis between SWF and SQS scenarios, always remember if the scenario includes human or manual interaction, SWF will be used.
 
 ##### SWF vs SQS
 - SQS has a retention period of up to 14 days, with SWF, workflow executions can last up to 1 year.
 - Amazon SQF presents a task- oriented API, whereas Amazon SQS offers a message-oriented API.
-- Amazon SQF ensures that a task is assigned only once and is never duplicated. with Amazon SQS, you need to handel duplicated messages and may also need to ensure that a message is processed only once.
+- Amazon SQF ensures that a task is assigned only once and is never duplicated. with Amazon SQS, you need to handel duplicated messages and may also need to ensure that a message is processed only once(default sqs).
 - SWF keeps track if all the tasks and events in an application. With SQS, you need to implement your own application- level tracking, especially if you need to implement your own application- level tracking, especially if your application uses multiple queues.
 
 SWF Actors:
