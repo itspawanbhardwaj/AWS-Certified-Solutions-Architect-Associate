@@ -1,9 +1,11 @@
 # Kinesis
 ---
 
-- Streaming data is a data that is generated continously by thousands of data sources, which typacally sens in the data records simultaneously, and in small sizes.
+Amazon kinesis is a platform on AWS to send your streaming data to. Kinesis makes it easy to load and analyze streaming data, and also providing the ability for you to build your own custom applications for your business needs.
 
-- Amazon kinesis is a platform on AWS to send your streaming data to. Kinesis makes it easy to load and analyze streaming data, and also providing the avility for you to build your own custom applications for your business needs.
+### What is streaming data?
+Streaming data is a data that is generated continously by thousands of data sources, which typacally sens in the data records simultaneously, and in small sizes.
+
 
 ---
 Types:
@@ -15,11 +17,11 @@ Types:
 	 - the data capacity of your stream is a function of the number of shards that you specify for the stream. The total capacity of the stream is the sum of the capacities of its shards.
 2) Kinesis firehose
 	- no persisance
-	- have lambda functions
+	- can have lambda functions and process data then output to s3, redhsift or elastic search cluster (optional)
 	- no shards
 
 3) kinesis analytics
-	- can analyze the data in kinesis
+	- can analyze the data INSIDE kinesis
 	- works with kinesis streams and kinesis firehose and analyze the data on the fly
 ---
 
