@@ -1,3 +1,6 @@
+#### Which services are not scoped in regions?
+AWS consoles are region scoped except IAM and S3
+
 ##### Which protocols does ELB use to support the load balancing of applications? 
 - HTTP, HTTPS, TCP and SSL
 
