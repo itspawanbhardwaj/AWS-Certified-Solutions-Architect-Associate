@@ -5,9 +5,9 @@ We need at least 2 public subnets to provision ELB
 
 ##### Types of load balancer:
 ---
-* Application Load Balancer
-* Network Load Balancer
-* Classic Load Balancer
+* Application Load Balancer (HTTP, HTTPS, WebSocket)
+* Network Load Balancer (TCP, TLS, UDP)
+* Classic Load Balancer (HTTP, HTTPS, TCP)
 
 -------------------------------------
 
