@@ -1,6 +1,10 @@
 # ELB
 ---
 
+We can have 
+- Internal (private) ELB
+- External (public) ELB
+
 We need at least 2 public subnets to provision ELB
 
 ##### Types of load balancer:
