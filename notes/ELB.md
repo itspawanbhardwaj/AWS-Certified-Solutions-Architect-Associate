@@ -28,6 +28,13 @@ You can also use strict layer 4 load balancing for applications that rely purely
 EC2 instance wont be able to see user public IP address, it will see ELB ip address.
 EC2 gets users public IP address from  X-forwarded-for header
 
+
+Troubleshooting
+- 4xx are client induced errors 
+- 5xx are application induced errors
+- 503 means LB at capacity or no registered target
+
+
 -----------------------------------------
 
 - Instances monitored by ELB are reported as: InService or OutOfService
