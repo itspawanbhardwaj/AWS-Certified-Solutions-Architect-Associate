@@ -22,7 +22,7 @@ EBS volume types
 * max Throughput/Instance : 1750 MB/s
 * dominant performance attribute: IOPS
 
-**2) Provisioned IOPS SSD (oi1)**
+**2) Provisioned IOPS SSD (io1)**
 - Highest-performance SSD volume for mission-critical Low-latency or high-throughput workloads
 * Use case:
 	Critical business applications that require sustained IOPS performance, or more than 16,000 IOPS or 250 MiB/s of throughput per volume
