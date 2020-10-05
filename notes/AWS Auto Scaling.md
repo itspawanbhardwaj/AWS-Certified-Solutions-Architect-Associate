@@ -22,11 +22,19 @@ Amazon EC2 Auto Scaling is a fully managed service designed to launch or termina
 #### Scaling Policies
 - **Target Tracking Scaling:** Most easy to setup, e.g want the avg cpu utilization to be  around 40%
 - **Simple/Step Scaling:** when a cloudwatch alarm is triggered (CPU>70%), then add 2 units. If cloudwatch alarm is triggered (CPU<30%) remove one unit.
-- **Scheduled ACtions:** anticipate scaling based on known usage patterns
+- **Scheduled Actions:** anticipate scaling based on known usage patterns
 
 #### Scaling Cooldown
 - Cooldown period helps to ensure that ASG does not launch or terminate additionals instances before the previous scaling activity  takes effect.
 - In addition to default cooldown for ASG, we can create cooldowns that apply to specific simple/step scaling policy
+
+#### ASG Life-cycle Hooks
+- You have ability to perform extra steps before the instance goes to in service
+- You have ability to perform extra steps before the instance termintates
+
+
+-------------
+
 
 ##### Q. What is AWS Auto Scaling?
 AWS Auto Scaling is a new AWS service that helps you optimize the performance of your applications while lowering infrastructure costs by easily and safely scaling multiple AWS resources. It simplifies the scaling experience by allowing you to scale collections of related resources that support your application with just a few clicks. AWS Auto Scaling helps you configure consistent and congruent scaling policies across the full infrastructure stack backing your application. AWS Auto Scaling will automatically scale resources as needed to align to your selected scaling strategy, so you maintain performance and pay only for the resources you actually need.
