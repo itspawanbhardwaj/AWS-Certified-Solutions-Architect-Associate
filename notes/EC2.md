@@ -230,6 +230,11 @@ EC2 Hibernete
 - Must be EBS and encrypted
 - Can not be hibernated more than 60 days
 
+EC2 Instance Metadata
+---
+EC2 Metadata (eg ial policies etc) can be found at the url 169.254.169.254/latest/meta-data
+
+
 ---
 ##### Q: What is the difference between using the local instance store and Amazon Elastic Block Store (Amazon EBS) for the root device?
 
