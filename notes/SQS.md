@@ -8,6 +8,9 @@
 * Using SQS, you can decouple the components of an application so they run independently, easing message management between components. Any component of a distributed application can store messages in a fail-safe queue.
 * Messages can contain up to 256 KB of text in any format. Any component can later retrieve the messages programmatically using the SQS API.
 * The queue acts as a buffer between the component producing and saving data, and the component recieving the data for processing. This means the queue resolves issues that arise if the producer is producing work faster than the consumer can process it, or if the producer or consumer are only intermittently connected to the network.
+* Delay Queue: Delay a message upto 15 mins (default is 0 seconds)
+* ChangeMessageVisiblity API to change the visiblity while processing a message
+* DeleteMessage API to tell sqs the message was processed successfully
 
 
 ##### Types of queues:
@@ -25,7 +28,7 @@
 - Msgs are 256 kb in size. We can go utpo 2GB but in that case S3 will be used to store
 - **Visibility time:** Visibility Timeout is the amount of time that the message is in which will in the sqs queue after a reader picks up that message. Provided the job is process before the visibility Timeout expires, the message will then be deleted from the queue. If the job is not processed within that time the message will become visible again and other reader will process it. This could result in the same message being delivered twice.
 - **SQS long polling:** SQS long polling is a way to retrieve mesages from your SQS queue. while the regular short polling returns immediately (even if the message queue being polled is empty), long polling doesnt returns a responses until a message arrives in the message queue, or the long poll times out. (it saves money)
-- **Dead Letter Queues:** Amazon SQS provides support for dead letter queues. A dead letter queue is a queue that other (source) queues can target to send messages that for some reason could not be successfully processed.
+- **Dead Letter Queues:** Amazon SQS provides support for dead letter queues. A dead letter queue is a queue that other (source) queues can target to send messages that for some reason could not be successfully processed (redrive policy).
 A primary benefit of using a dead letter queue is the ability to sideline and isolate the unsuccessfully processed messages. You can then analyze any messages sent to the dead letter queue to try to determine the cause of failure.
 - Messages can be kept on the queue from 1 mint to 14 days; 
 - The default retention period is 4 days
