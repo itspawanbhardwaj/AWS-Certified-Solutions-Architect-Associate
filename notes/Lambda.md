@@ -5,6 +5,11 @@ Lambda can be used in following ways
 - As a compute service to run your code in response to HTTP requests using API Gateway or API calls made using AWS SDKs. This is what we use at A Cloud Guru.
 
 
+#### Lambda@Edge
+- Deploy lambda functions alongside your cloudfront cdn
+- Lambda is deployed globally
+
+
 Pricing
 ---
 - Number of requests. First 1 million requests are free. $0.20 per 1 million requests thereafter
