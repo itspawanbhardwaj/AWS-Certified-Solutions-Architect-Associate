@@ -12,6 +12,15 @@
 - DynamoDB Acceleration(DAX)- in-memory cache for dynamodb. Fully managed. Millions of request per second for dynamodb and you want to reduce latency to access to the DynamoDB table.
 - Cant be deployed in multi region
 - All data items are stored on Solid State Drives (SSDs) and are automatically replicated across multiple Availability Zones in a region to provide built-in high availability and data durability.
+- DynamoDB Streams:  Changes in DynamoDB (CRUD) can end up in a dynamodb stream. Cross region replication is implemented using streams. This stream can be read by Lambda and then
+	- React to them in real time eg welcome mail to new users
+	- Analytics
+	- Create derivative table or views
+	- Insert in elastic search
+- Transcations: All or nothing type of operation. Coordinated insertion, update and delete accross multiple tables
+- On Demand: Instead of provisioning RCU and WCU,use on demand. Scales automatically. 2.5x more expensive. Used when traffic is unpredictable
+- Global table: Cross region replication. Dynamodb streams must be enabled 
+
 
 Consistency model:
 ---
