@@ -1,26 +1,51 @@
 # ELB
 ---
 
+We can have 
+- Internal (private) ELB
+- External (public) ELB
+
+We need at least 2 public subnets to provision ELB
+
 ##### Types of load balancer:
 ---
-* Application Load Balancer
-* Network Load Balancer
-* Classic Load Balancer
+* Application Load Balancer (HTTP, HTTPS, WebSocket)
+* Network Load Balancer (TCP, TLS, UDP)
+* Classic Load Balancer (HTTP, HTTPS, TCP)
 
 -------------------------------------
 
-->	**Application load balancer** :  best suited for load balancing of HTTP and HTTPS traffic. They operate at layer 7 and are application-aware. They are intelligent, you can create advanced request routing, sending specified requests to specified requests to specific web servers.
+- **1: Application load balancer** :  best suited for load balancing of HTTP and HTTPS traffic. They operate at layer 7 and are application-aware. They are intelligent, you can create advanced request routing, sending specified requests to specified requests to specific web servers. 
+	- Allows to load balance to multiple applications on same machine
+	- Supports redirects (eg http to https)
+	- Routing table to different target groups
+		- Routing based on url path
+		- Routing based on hostname url
+		- Routing based on Query string, headers
+	- Ideal for micro services and container-based apps
+	- Supports multiple ssl certs
 
--> **Network load balancer**:  best suited for load balancing of TCP traffic where extreme performance is required. Operating at connection leven (layer 4), Network load balancer are capable of handling millions of requests per second, while maintaining ultra-low latencies.
-	Use for extreme performance
+- **2: Network load balancer**:  best suited for load balancing of TCP traffic where extreme performance is required. Operating at connection leven (layer 4), Network load balancer are capable of handling millions of requests per second, while maintaining ultra-low latencies.
+	- Use for extreme performance
+	- Supports multiple ssl certs
 
--> **Classic load balancer**: these are the legacy of elastic load balancers, you can load balance HTTP/HTTPS applications and use layer 7- specific features, such as X-forward and sticky sessions.
+- **3: Classic load balancer**: these are the legacy of elastic load balancers, you can load balance HTTP/HTTPS applications and use layer 7- specific features, such as X-forward and sticky sessions.
 You can also use strict layer 4 load balancing for applications that rely purely on the TCP protocol.
-	 if your application stops responding, the ELB (Classic load balancer) responds with a 504 error.
-	 This means that the application is having issues. This could be either at the web server layer or at the database layer.
+	- if your application stops responding, the ELB (Classic load balancer) responds with a 504 error.
+	- This means that the application is having issues. This could be either at the web server layer or at the database layer.
+	- Supports only 1 ssl cert
+
 
 EC2 instance wont be able to see user public IP address, it will see ELB ip address.
-EC2 gets users public IP address from  X-forwarded-for header
+EC2 gets users public IP address from  X-forwarded-for header, for port we have X-forwarded-port and for protocol we have X-Forwarded-Proto
+
+
+
+#### Troubleshooting
+- 4xx are client induced errors 
+- 5xx are application induced errors
+- 503 means LB at capacity or no registered target
+
 
 -----------------------------------------
 
@@ -30,9 +55,23 @@ EC2 gets users public IP address from  X-forwarded-for header
 
 Advanced load balancer theory
 -----------------------------
-- sticky sessions enable your users to stick to the same EC2 instance.
+- sticky sessions enable your users to stick to the same EC2 instance (works for ALB and CLB)
 - cross zone load balancing enables you to load balance across multiple Availability-Zones
 - Path patterns allow you to direct traffic to different EC2 instances based on the URL contained in the request.
+- Sticky sessions are commonly used when users have to write something to the server, so sticky sessions keep the user on the same ec2
+
+
+Target Groups
+---
+- EC2
+- ECS
+- Lambda
+- IP
+
+##### Q: The load balancer is sending all the traffic to one ec2 instance and you notice no traffic is being sent to the second ec2 instance, what will you do?
+
+Disable sticky sessions
+
 
 --------------------------------------------------
 

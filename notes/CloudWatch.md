@@ -3,7 +3,7 @@
 - Standard monitoring: 5 minutes
 - Detailed monitoring: 1 minutes
 
-- **Dashboards**: Created awesome Dashboards to see what is happening with your AWS environment.
+- **Dashboards**: Created awesome Dashboards to see what is happening with your AWS environment. Can have graphs from different regions
 - **Alarms**: Allow you to set alarm that notify you when partiular threshold are hit
 - **Events** cloudwatch events helps you to respond to state change in your AWS resources
 - **Logs**: CloudWatch logs helps you to aggregate monitor and store logs.

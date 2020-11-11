@@ -1,10 +1,9 @@
 # DynamoDB
 ---
 
-	Amazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistant, single-digit millisecond latency at any scale.
-	It is a fully managed database and supposts both document and key-value data models.
-	Its flexible data model and reliable performance make it a great fit for mobile, web, gaming, ad-tech,Iot and many other applications.
-
+- Amazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistant, single-digit millisecond latency at any scale.
+- It is a fully managed database and supposts both document and key-value data models.
+- Its flexible data model and reliable performance make it a great fit for mobile, web, gaming, ad-tech,Iot and many other applications.
 - Stored on SSD storage
 - Spread across 3 geographical distinct data center
 - Eventual consistant read
@@ -13,13 +12,29 @@
 - DynamoDB Acceleration(DAX)- in-memory cache for dynamodb. Fully managed. Millions of request per second for dynamodb and you want to reduce latency to access to the DynamoDB table.
 - Cant be deployed in multi region
 - All data items are stored on Solid State Drives (SSDs) and are automatically replicated across multiple Availability Zones in a region to provide built-in high availability and data durability.
+- DynamoDB Streams:  Changes in DynamoDB (CRUD) can end up in a dynamodb stream. Cross region replication is implemented using streams. This stream can be read by Lambda and then
+	- React to them in real time eg welcome mail to new users
+	- Analytics
+	- Create derivative table or views
+	- Insert in elastic search
+- Transcations: All or nothing type of operation. Coordinated insertion, update and delete accross multiple tables
+- On Demand: Instead of provisioning RCU and WCU,use on demand. Scales automatically. 2.5x more expensive. Used when traffic is unpredictable
+- Global table: Cross region replication. Dynamodb streams must be enabled 
+
 
 Consistency model:
 ---
-	Eventually consistest Reads (default) (read from all the node)
-	strongly consistest reads (read from primary node)
+**Eventually consistest Reads** (default) (read from all the node)
+- Consistence accross all copies of data is usually reached within a second. 
+- Repeating read after a short time should return the updated data (Best read performance)
 
-* **Partition**: Sort Key uses two attributes together to uniquely identify an item.
+**Strongly consistest reads** (read from primary node)
+- A strongly consistent read reutrns a result that reflects all writes the received a successful response prior to the read, (as soon as the update is made, less than a second)
+
+Partition
+---
+
+**Partition**: Sort Key uses two attributes together to uniquely identify an item.
 * Within unordered hash index, data is arranged by the sort key
 * No limit on the number of items per partition key, except if you have local secondary indexes.
 * Partitions are three-way replicated.(Eventually consistest read is recommended)

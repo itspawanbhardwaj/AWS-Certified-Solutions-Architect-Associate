@@ -22,7 +22,7 @@ EBS volume types
 * max Throughput/Instance : 1750 MB/s
 * dominant performance attribute: IOPS
 
-**2) Provisioned IOPS SSD (oi1)**
+**2) Provisioned IOPS SSD (io1)**
 - Highest-performance SSD volume for mission-critical Low-latency or high-throughput workloads
 * Use case:
 	Critical business applications that require sustained IOPS performance, or more than 16,000 IOPS or 250 MiB/s of throughput per volume
@@ -103,6 +103,14 @@ Use case:
 
 ---
 
+Encryption: encrypt an unecrypted EBS volume
+---
+- Create an EBS snapshot of volume
+- Encrypt the EBS snapshot (using copy)
+- Create new EBS volume from the snapshot (encrypted volume)
+- Now you can attach the encrypted volume to the original instance
+
+---
 **Volumes vs Snapshot security:**
 ---
 1.	snapshots of encrypted volumes are encrypted automatically
@@ -110,6 +118,18 @@ Use case:
 3.	You can share snapshots, but only if they are unencrypted.
 
 ---
+
+EBS Snapshots
+---
+- Incremental - only backup changed blocks
+- EBS backups use IO, you should not run it when handling a lot of traffic
+- Snapshots are stored in S3
+- Not necessary to detach volume to do snapshot but recommended
+- Can copy snapshots accross AZ or region
+- Can make AMI from snapshot
+- EBS volumes restored by snapshots need to be pre-warmed
+- Snapshots can be automated using Amazon Data Lifecycle Manager
+
 
 **Snapshot of root volume devices**
 ---
@@ -146,6 +166,24 @@ For **instance store volumes**: the root device for an instance launched from th
 - EBS backed volumes can be stopped, you will not lose the data on this instance if it is stopped.
 - You can reboot both, you will not lose the data
 - be default, both ROOT volumes will be deleted on termination, however with EBS volumes, you can tell AWS to keep the root device volume 
+
+
+Instance Store Pros
+- Better I/O Performance
+- Good for buffer/cache/temporary content
+- Data survives reboot
+
+Instance Store Cons
+- On stop or termination, the instance store is lost
+- Cant resize the instance store
+- Backups must be operated by the used
+- Risk of data loss if hardware fails
+
+If we need high IOPS, higher than 62,000 we will use instance store instead of EBS because instance store can provide upto 3.3 million read and 1.6 million write IOPS
+
+
+When need more IOPS in EBS, Use Raid 0 (better performance) or Raid 1 (mirroring, fault tolerant)
+
 ---
 ##### Q: What level of performance consistency can I expect to see from my Provisioned IOPS SSD (io1) volumes?
 

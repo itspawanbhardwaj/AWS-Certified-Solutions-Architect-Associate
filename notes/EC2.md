@@ -13,79 +13,93 @@
 **Billing commences** when Amazon EC2 initiates the boot sequence of an AMI instance and billing ends when the instance shuts down.
 
 ---
+Instances Type (Main Ones)
+---
+- R: Applications that needs a lot RAM - in-memory cache
+- C: Applications that needs good CPU - compute / databases
+- M: Applications that are balanced - general/web apps
+- I: Applications that needs good local I/O (instance sotrage) - Databases
+- G: Applications that needs a GPU - ML
 
-##### Instance purchasing options:
+- T2/T3: Burstable instances (upto a capacity)
+    - bursts are the spikes of CPU performance, too much load will freeze the machine
+    - CPU credits are utilized when a machine bursts
+    - If machine stops bursting, credits are accumulated over time
+- T2/T3 - unlimited: Unlimited burst
+    - Unlimited burst credit balance
+    - You pay extra money if you go over your credit balance
 
-**1) On-Demand Instances:**
-	
-	Pay by the hour that you launch
-	Allows you to pay a fixed rate by hour with no commitment
-	Perfect for users that want the low costs and flexiblility of Amazon EC2 without any up-front payment or long term commitment
-	Application with short term, spiky or unpredictable workloads that can not be interrupted
-	Applications being developed or tested on EC2 for the first time
+---
+
+## Instance purchasing options:
+
+**1) On-Demand Instances:**	
+- Pay by the hour that you launch
+- Allows you to pay a fixed rate by hour with no commitment
+- Perfect for users that want the low costs and flexiblility of Amazon EC2 without any up-front payment or long term commitment
+- Application with short term, spiky or unpredictable workloads that can not be interrupted
+- Applications being developed or tested on EC2 for the first time
 
 **2) Reserved Instances:**
-	- Provides you with a capacity reservation and offer a sighnificant discount on the hourly charge for an instance. 1 year or 3 year terms
-	Applications with strady state or predictable usuage
-	Application that require reserved capability
-	-Users can make up-front payments to reduce their total computing costs even further:
-		**Standard Rls** (up to 75% off on-demand)
-		**Convertable Rls** (54% off on-demand) features the capacity to change the attribute of RI as long as the exchange results in the creation of reserved instances of equal or greater value.
-		**Schedule Rls** are available to launch within the time window you reserve. This option allow you to match your capacity reservation schedule that only requires a fraction of a day, a week or a month.
+- Provides you with a capacity reservation and offer a sighnificant discount on the hourly charge for an instance. 1 year or 3 year terms
+- Applications with strady state or predictable usuage
+- Application that require reserved capability
+- Users can make up-front payments to reduce their total computing costs even further:
+	- **Standard Rls** (up to 75% off on-demand)
+	- **Convertable Rls** (54% off on-demand) features the capacity to change the attribute of RI as long as the exchange results in the creation of reserved instances of equal or greater value.
+	- **Schedule Rls** are available to launch within the time window you reserve. This option allow you to match your capacity reservation schedule that only requires a fraction of a day, a week or a month.
 
-	Limitations:
-	- You are limited to purchasing 20 Reserved instances per available zone per month, plus 20 regional Reserved instances. Therefore in a region of 3 available zone, you can purchase 80 reserved instances (20* 3 + 20)
+Limitations:
+- You are limited to purchasing 20 Reserved instances per available zone per month, plus 20 regional Reserved instances. Therefore in a region of 3 available zone, you can purchase 80 reserved instances (20* 3 + 20)
 
 
-**3) Scheduled instances:** 
+**3) Spot instances:**
 
-	Purchase instances that are always available on the specified recurring schedule, for a one-year term.
+- Request unused EC2 instances, which can lower your Amazon EC2 cost significantly.
+- if the current spot price > your max price, you can stop or terminate your instance within a 2 minutes grace period
+- Applications that have flexible start and end times
+- Applications that are only feasible at very low compute prices.
+- Users with an urgent need for large amount of additional computing capacity.
+- Spot instances are well suited for data analysis, batch jobs, background processing and optional tasks that are failure resilient.
+- 20 spot instances per region.
+- Spot bid price limit for spot instance is ten times the on-demand price.
+- **Block spot**: Block spot instancce during a specified time frame (1 ot 6 hours) without interruptions
 
-4) **Spot instances:**
+**4) Dedicated Hosts:**
+- You have control over the physical server. If you have a third party application wherein the licensing is based on the number of cores.
+Or if your security policy mandates that you cannot share infrastructure.
+- Pay by the hour for instances that run on single-tenant hardware, Dedicated instances will not share hosts with other accounts
+- Reduce costs by allowing you to use existing server-bound software licenses.
+- Useful for regulatory requirements that may not support multi-tenent virtualization
+- Great for licensing which does not support multi-tenency or cloud deployments
+- Can be purchased on-demand(hourly)
+- Can be purchased as a Reservation for up to 70% off on-demand price
 
-	- Request unused EC2 instances, which can lower your Amazon EC2 cost significantly.
-	- Applications that have flexible start and end times
-	- Applications that are only feasible at very low compute prices.
-	- Users with an urgent need for large amount of additional computing capacity.
-	- Spot instances are well suited for data analysis, batch jobs, background processing and optional tasks.
-	- 20 spot instances per region.
-	- Spot bid price limit for spot instance is ten times the on-demand price.
-
-**5) Dedicated Hosts:**
-	- You have control over the physical server. If you have a third party application wherein the licensing is based on the number of cores.
-	Or if your security policy mandates that you cannot share infrastructure.
-	- Pay by the hour for instances that run on single-tenant hardware, Dedicated instances will not share hosts with other accounts
-	- Reduce costs by allowing you to use existing server-bound software licenses.
-	- Useful for regulatory requirements that may not support multi-tenent virtualization
-	- Great for licensing which does not support multi-tenency or cloud deployments
-	- Can be purchased on-demand(hourly)
-	- Can be purchased as a Reservation for up to 70% off on-demand price
-
-**6) Dedicated instances**
-	- Dedicated instances are EC2 instances that run in a VPC on hardware thats dedicated to a single customer.
-	If the customer has multiple AWS accounts, then instances can share the same hardware
+**5) Dedicated instances**
+- Dedicated instances are EC2 instances that run in a VPC on hardware thats dedicated to a single customer.
+If the customer has multiple AWS accounts, then instances can share the same hardware
 
 ##### Dedicated hosts vs dedicated instances
-	- Dedicated hosts give you additional visibility and control over how instances are placed on a physical layer.
-	- When you use dedicated hosts, you have control over instances Placement on the host using the host affinity and instance auto-placement setting. 
-	- If your organization wants to use AWS, but has an existing software licence with hardware compliance requirements, this allows visibility into the hosts hardware so you can meet those requirements.
+- Dedicated hosts give you additional visibility and control over how instances are placed on a physical layer.
+- When you use dedicated hosts, you have control over instances Placement on the host using the host affinity and instance auto-placement setting. 
+- If your organization wants to use AWS, but has an existing software licence with hardware compliance requirements, this allows visibility into the hosts hardware so you can meet those requirements.
 
-	##### limitations:
-	- RHEL, SUSE linux and windows AMI offered by AWS or on the AWS marketplace cannot be used with Dedicated hosts.
-	- Amazon EC2 instance auto recovery is not supported
-	- the instance that run on a dedicated host can only be launched in a VPC.
-	- Hosts limits are independent from instance limits. Instance that you are running on dedicated hosts do not count towards your instance limits.
-	- Auto-scaling groups are not suported.
-	- RDS instances are not supported
-	- AWS Free tier is not available for dedicated hosts.
-	- Placement groups are not supported
+##### limitations:
+- RHEL, SUSE linux and windows AMI offered by AWS or on the AWS marketplace cannot be used with Dedicated hosts.
+- Amazon EC2 instance auto recovery is not supported
+- the instance that run on a dedicated host can only be launched in a VPC.
+- Hosts limits are independent from instance limits. Instance that you are running on dedicated hosts do not count towards your instance limits.
+- Auto-scaling groups are not suported.
+- RDS instances are not supported
+- AWS Free tier is not available for dedicated hosts.
+- Placement groups are not supported
 
 **6) Capicity reservations:**
 
-	Reserve capacity for your instances in a specified availablity zone for any duration.
----
+Reserve capacity for your instances in a specified availablity zone for any duration.
 
-##### Status check:
+Status check:
+---
 
 **1)  System status check:** 
 * These checks monitor the AWS system required to use this instance and ensure they are function properly.
@@ -106,13 +120,48 @@ On an EBS-backed instance, the default action is for the root EBS volume to be d
 ##### PLACEMENT GROUP
 ---
 
-**Clustered placement Group:** its a grouping of instances within a single availablity zone. Placement grpups are recomended for applications that need low network latency, high network throughput or both.
-* Only certain instances can be launched in to a clustered placement groups.
+EC2 instance placement strategy can be defined using placement groups
 
-**Spread Placement groups**: A spread placement group is a group of instances that are each placed on distinct underlying hardware.
+**Clustered placement Group:** 
+*its a grouping of instances within a single availablity zone (and same hardware). Placement grpups are recomended for applications that need low network latency, high network throughput or both (but high risk).
+* Only certain instances can be launched in to a clustered placement groups.
+* Pros: High network throughput with low latency
+* Cons: High risk. All instances fail at same time
+* Usecase:
+    * Big data job that needs to complete fast
+    * Apps that need low latency
+
+**Spread Placement groups**: 
+*A spread placement group is a group of instances that are each placed on distinct underlying hardware (max 7 instances per group per AZ).
 * Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other.
 * Can't merge placement groups
 * Cant move an existing instance into a placement group. You can create an AMI from your existing instance, and then launch a new instance from the AMI into a placement group.
+* Pros:
+    * Can span across multiple AZ
+    * Reduced risk
+* Cons:
+    * Limited to 7 instances per AZ per placement group
+* Usecase:
+    * High Availability Apps
+    * Critical apps where each instance must be isolated from failure of each other
+
+**Partition Placement Groups**: 
+* Spread instances accross many different partitions within an AZ. Scales to 100s of EC2 instances per group and upto 7 partitions per AZ. In Partition placement groups, instances are still spread and one partition is isolated from one another instead of individual instances.
+* Usecase: Distributed big data apps like Cassandra hadoop kafka etc
+
+AMI
+---
+---
+- You can share an AMI with another AWS account
+- Sharing an AMI does not effect the ownership of the AMI
+- To copy an AMI, you need to launch the instance first
+- If you copy an AMI that has been shared with your account, you are the owner of the target AMI in your account
+- To copy an AMI that was shared with you from another account, the owner of the soource AMI must grant you read permissions for the storage that backs the AMI, either the associated EBS snapshot or S3 bucket
+
+Limits
+- You cant copy an encrypted AMI that was shared with you form another account. Instead, if the underlying snapshot of encryption key were share with you, you can copy the snapshot while re-encrypting it with a key of your own. You own the copied snapshot and can register it as a new AMI
+- You cant copy an AMI with an associated billingProduct code that was shared with you from another account. To copy a shared AMI with a billingProduct code, launch EC2 instance in your account using shared AMI and then create an AMI from the instance.
+
 
 ---
 ##### Network and security of Amazon EC2
@@ -162,10 +211,28 @@ A network interface can include the following attributes:
 - one or more security groups
 - a MAC address
 - a source to destination check flag.
+- bound to specific AZ
+ 
+You can create ENI independently and attach them on the fly on EC2 instances for failover
 
 
 EC2-Classic Security: Groups Control outgoing instance traffic
 VPC Security: Groups Control outgoing and incoming instance traffic
+
+
+EC2 Hibernete
+---
+- The in-memory (RAM) state is preserved (in the ebs volume)
+- The instance boot is much faster
+- The root ebs volume must be encrypted
+- Only supports Cx, Mx, Rx at the moment.
+- Instance ram size must be less than 150 gb
+- Must be EBS and encrypted
+- Can not be hibernated more than 60 days
+
+EC2 Instance Metadata
+---
+EC2 Metadata (eg ial policies etc) can be found at the url 169.254.169.254/latest/meta-data
 
 
 ---

@@ -1,9 +1,23 @@
 # Kinesis
 ---
 
-- Streaming data is a data that is generated continously by thousands of data sources, which typacally sens in the data records simultaneously, and in small sizes.
+Amazon kinesis is a platform on AWS to send your streaming data to. Kinesis makes it easy to load and analyze streaming data, and also providing the ability for you to build your own custom applications for your business needs.
 
-- Amazon kinesis is a platform on AWS to send your streaming data to. Kinesis makes it easy to load and analyze streaming data, and also providing the avility for you to build your own custom applications for your business needs.
+### What is streaming data?
+Streaming data is a data that is generated continously by thousands of data sources, which typacally sens in the data records simultaneously, and in small sizes.
+
+- Once data is added in kinesis, it cant be deleted so data is immutable
+- Ability to reprocess the data
+- Billing is per shard provisioned
+- Shards can be added (resharding) and reduced (merging) 
+- Records are ordered per shard
+- When Putting records, choose a partition key that is highly distributed to prevent hot partition (otherwise all data will go to the same shard)
+- USe batching with put records to reduce costs and increase throughput
+- ProvisionedThroughputExceeded if we go over the limits. To handle this
+	- Retries with backoff
+	- Increase shards
+	- Ensure your partition key is good one (hot partition) 
+- Hint: if you see words like ETL, Realtime, Big data analytics, iOT etc, it is possibly a kinesis scenario
 
 ---
 Types:
@@ -15,13 +29,31 @@ Types:
 	 - the data capacity of your stream is a function of the number of shards that you specify for the stream. The total capacity of the stream is the sum of the capacities of its shards.
 2) Kinesis firehose
 	- no persisance
-	- have lambda functions
+	- can have lambda functions and process data then output to s3, redhsift or elastic search cluster (optional) or splunk
 	- no shards
+	- near real time
+	- supports many data formats, conversions, transformations, compressions
 
 3) kinesis analytics
-	- can analyze the data in kinesis
+	- can analyze the data INSIDE kinesis in real time using sql
 	- works with kinesis streams and kinesis firehose and analyze the data on the fly
+	- managed: no servers to provision
+	
 ---
+
+Data Streams vs Fire hose
+- Streams (hint: for analyzing data streams)
+	- Going to write custom code (producer/consumer)
+	- Real time
+	- Must manage scaling (shard splitting / merging)
+	- Data storage for 1 to 7 days, replay capablity, multi consumers
+- Firehose (hint: for ingesting data streams to S3, Splunk, Redshift or Elasticsearch)
+	- Fully managed, send to S3, Splunk, Redshift or ElasticSearch
+	- Serverless data transformations with lambda
+	- Near real time (lowest buffer time is 1 min)
+	- Automated scaling
+	- No data storage
+
 
 ##### Q: What is Amazon Kinesis Data Streams?
 

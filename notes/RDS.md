@@ -1,63 +1,164 @@
-#RDS
+# RDS
 ---
 
-RDS has two key features:
-	- Multi-AZ for disaster recovery
-	- Read Replicas for performance
+**1. RDS (OLTP):**
+- SQL server
+- MySQL
+- PostgreSQL
+- Oracle
+- Aurora
+- MariaDB
 
-RDS (OLTP):
-	- SQL server
-	- MySQL
-	- PostgreSQL
-	- Oracle
-	- Aurora
-	- MariaDB
-DynamoDB (NoSQL)
-Redshift (OLAP)
+**2. Data Warehousing (OLAP)**
+- Redshift
 
----
+**3. DynamoDB (NoSQL)**
+
+
+
+--------------------
+
+# Multi-AZ
+
+- It allows to have SYNCHRONISED replication (exact copy) of rds production database running in different availability zone. All the changes are synced and replicated automaitcally by amazon.
+- If we lose our main rds instance in an avaiability zone, Amazon will automatically update the dns settings and rds endpoint will automatically failover to the rds database in the different availability zone.
+- In the event of planned db mainetenance, DB instance failure or an Avaiability zone failure, aws rds will auomatically failover to the standby rds instance so that db operations can resume quickly without adminsistrative interventaion. Same dns endpoint will failover to the standby instance.
+- Multi-AZ available for
+    - SQL Server
+    - Oracle
+    - MySQL
+    - PostgreSQL
+    - MariaDB
+- Aurora by its own architecture is fault tolerant
+- Multi-AZ for disaster recovery
+- You can force a failover from one AZ to another by rebooting the rds instance
+-----------------------
+
+# Read Replicas
+- Read replicas allow you to have a read-only copy of your production database. This is achieved  by using asynchronous replciation front the primary RDS instance to the read replica. You use read replicas primarily for very read-heavy database workloads
+- used for scaling, not for Disastar recovery
+- must have automatic backups turned on in order to deploy a read replica.
+- you can have up to 5 read replicas copies of any database (but watch out for replication latency)
+- you can have read replica of read replica.
+- each read replica will have its own DNS end point
+- you can have read replica that have Multi-AZ
+- You can create read replica of Multi-AZ source database
+- read replica can be promoted to be thier own database. this breaks the replication
+- You can have a read replica in a second region
+- Read Replicas for performance
+- Available for
+    - MySQL
+    - PostgreSQL
+    - MariaDB
+    - Aurora
+-------------------------------------
+
+# Backups
+Two types of backups
+### **1: Automated backups**: 
+- Automated backups allow you to recover your database to any point in time within a "retention period". **The retention period can be between one and 35 Days**. Automated backups will take a full daily snapshot and will also store transaction logs throughout the day. when you do a recovery, AWS will first choose the most recent daily backup, and then apply transactions logs relevant to that day. This allows you to do a point in time recovery down to a second, within the retention period.
+- enabled by default
+- backup data is stored in s3 and you get free storage space equal to the size of your database.
+- backups are taken within a defined window. During the backup window, storage I/O may be suspended while your data is being backed up and you may experience elevated latency
+
+### **2: Snapshot**:
+- DB snapshots are done manually
+- they are stored even after you delete the original RDS instance, unlike Automated backups
+
+Restoring backups
+-----------------
+Whenever you restore either an automatically backups or db snapshot, the restored version of the database will be a new RDS instance with a new DNS endpoint.
+
+
+--------------------------
+
+# Encryption
+Supported at rest for
+- MySQL
+- Oracle
+- SQL Server
+- PostgreSQL
+- MarioDB
+- Aurora
+ 
+
+Encryption is done using the AWS KMS (Key Management Service). Once your RDS instance is encrypted, the data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas and snapshot
+
+
+-----------------------
+It is good practice to split databases, one for basic queries and one for analytical complex queries.
+
+
+
+---------------------------------
+
+**Multi AZ is available for the following databases:**
+	SQL Server
+	Oracle
+	MySQL server
+	postgres sql
+	mariadb
+
 
 ##### Elastic cache
 
-	- memcache
-		* simple cache to offload DB
-		* Ability to scale horizontally
-		* Multi-threaded performance
-		* in memory key value datastore
-		* fastest cache db available now
-		* The default limit is 20 nodes per cluster.
-		* data types: strings and object
+**Used to increase db and web-apps performance**
 
-	- redis
-		* Redis clusters can only contain a single node; however, you can group multiple clusters together into a replication group.
-		* simple cache to offload DB
-		* Advanced data types
-		* Ranking/Sorting datasets
-		* Pub/Sub capability
-		* persistance
-		* Multi-AZ with auto-failover
-		* Read Replica for read availability
-		* Availability due to partitioning
-		* Backups & restore capability
-		* key-value store
-		* A cluster consists of 1 to 15 shards
-		* Each shard has a primary node and upto 5 replica nodes across multiple AZs for read scaling
-		* increase writes by adding shards
-		* fully managed and Hardened
-		* secure and compliant: VPC
-			* Encryption: 
-				in-transit: Encrypt all communication between clients, server, nodes
-				At-Rest: Encrypt backups on disk and s3
-				Supports redis AUTH
-				Fully managed: setup via API, CLI or console, automatic certificate issuance and renewal
-		* Highly available and reliable: Read replicas, multiple primaries, multi-AZ with automatic failover
-		* Easily scalable: Cluster with up to 6.1 TB of in-memory data 
-		* Read scaling with replicas
-		* Write and memory scaling with sharding
-		* Scale out or in
-		* Detailed monitoring metrices, CloudWatch integration
-		* 
-	* used to increase database and web application performance
+ElastiCache is a web service that makes it easy to deploy, operate and scale an in-memory cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory caches, instead of relying entirely on slower disk-based databases
+
+ElastiCache supports two open-source in-memory caching engines. Difference between them is not important to know for associate leel but **important** at professional level
+
+Requirement | Memcached | Redis 
+--- | --- | ---
+Simple cache to offload DB | Yes | Yes
+Ability to scale horizontally | Yes | No
+Multi-threaded performance | Yes | No
+Advanced data types | No | Yes
+Ranking/Sorting data sets | No | Yes
+Publishing/Subscribing capabilities | No | Yes
+Persistence | No | Yes
+Multi-AZ | No | Yes
+Backup & Restore | No | Yes
+
+- memcached
+	* simple cache to offload DB
+	* Ability to scale horizontally
+	* Multi-threaded performance
+	* in memory key value datastore
+	* fastest cache db available now
+	* The default limit is 20 nodes per cluster.
+	* data types: strings and object
+
+- redis
+	* Redis clusters can only contain a single node; however, you can group multiple clusters together into a replication group.
+	* simple cache to offload DB
+	* Advanced data types
+	* Ranking/Sorting datasets
+	* Pub/Sub capability
+	* persistance
+	* Multi-AZ with auto-failover
+	* Read Replica for read availability
+	* Availability due to partitioning
+	* Backups & restore capability
+	* key-value store
+	* A cluster consists of 1 to 15 shards
+	* Each shard has a primary node and upto 5 replica nodes across multiple AZs for read scaling
+	* increase writes by adding shards
+	* fully managed and Hardened
+	* secure and compliant: VPC
+		* Encryption: 
+			in-transit: Encrypt all communication between clients, server, nodes
+			At-Rest: Encrypt backups on disk and s3
+			Supports redis AUTH
+			Fully managed: setup via API, CLI or console, automatic certificate issuance and renewal
+	* Highly available and reliable: Read replicas, multiple primaries, multi-AZ with automatic failover
+	* Easily scalable: Cluster with up to 6.1 TB of in-memory data 
+	* Read scaling with replicas
+	* Write and memory scaling with sharding
+	* Scale out or in
+	* Detailed monitoring metrices, CloudWatch integration
+	* 
+* used to increase database and web application performance
 
 ----------------------------------
 
@@ -67,52 +168,7 @@ Patching of the RDS OS and DB is Amazon's responsibility
 RDS is NOT serverless
 Aurora is serverless
 
--------------------------------------
 
-Backups
---------
-Types:
-**Automated**: 
-	- Automated backups allow you to recover your database to any point in time within a "retention period". The retention period can be between one and 35 Days. Automated backups will take a full daily snapshot and will also store transaction logs throughout the day. when you do a recovery, AWS will first choose the most recent daily backup, and then apply transactions logs relevant to that day. This allows you to do a point in time recovery down to a second, within the retention period.
-	- enabled by default
-	- backup data is stored in s3 and you get free storage space equal to the size of your database.
-	- backups are taken within a defined window. During the backup window, storage I/O may be suspended while your data is being backed up and you may experience elevated latency
-
-**Snapshot**:
-	- DB snapshots are done manually
-	- they are stored even after you delete the original RDS instance, unlike Automated backups
-
-Restoring backups
------------------
-Whenever you restore either an automatically backups or db snapshot, the restored version of the database will be a new RDS instance with a new DNS endpoint.
-
---------------------------
-
-Encryption at rest:
-------------------
-	- encryption is done using the AWS KMS. Once your RDS instance is encrypted, the data stored at rest in the underlying storage is encrypted, as are its automated backups, read replicas and snapshot
----------------------------------
-
-Multi AZ is available for the following databases:
-	SQL Server
-	Oracle
-	MySQL server
-	postgres sql
-	mariadb
-
------------------------
-
-Read replicas:
-	- Read replicas allow toy to have a read-only copy of your production database. This is achieved  by using asynchronous replciation front he primary RDS instance to the read replica. You use read replicas primarily for  very read-heavy database workloads
-	- used for scaling, not for DR
-	- must have automatic backups turned on in order to deploy a read replica.
-	- you can have up to 5 read replicas copies of any database
-	- you can have read replica of read replica.
-	- each read replica will have its own DNS end point
-	- you can have read replica that have Multi-AZ
-	- You can create read replica of Multi-AZ source database
-	- read replica can be promoted to be thier own database. this breaks the replication
-	- You can have a read replica in a second region
 
 --------------------
 ##### Q: How many DB instances can I run with Amazon RDS?
@@ -314,3 +370,11 @@ In the event of Multi-AZ failover, any associated and available read replicas wi
 
 Amazon Aurora, Amazon RDS for MySQL and MariaDB: You can create a second-tier read replica from an existing first-tier read replica. By creating a second-tier read replica, you may be able to move some of the replication load from the master database instance to a first-tier Read Replica. Please note that a second-tier Read Replica may lag further behind the master because of additional replication latency introduced as transactions are replicated from the master to the first tier replica and then to the second-tier replica.
 Amazon RDS for PostgreSQL, Amazon RDS for Oracle: Read Replicas of Read Replicas are not currently supported.
+
+
+##### Q: What are the two steps to reduce database overload and make db perform better?
+
+1. Add read replicas and create read replicas of read replicas
+2. Use Elasticache
+
+

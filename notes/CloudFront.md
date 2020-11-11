@@ -16,6 +16,48 @@ Amazon cloudfront can be used to deliver your entire website, including dynamic,
 - edge location are not just read only.
 - object are cached for TTL(time to live).
 
+
+
+#### Geo Restriction
+- You can restrict access to your distribution
+  - Whitelist: allow access if in the list of approved countries
+  - Blacklist: deny access if in the list of banned countries
+
+
+  - CloudFront
+  - GLobal Edge Network
+  - Files can be cached for a TTL
+  - Great for static content that must be available everywhere
+- S3 Cross Region Replication
+  - Must be setup for each region you want replication to happen
+  - Files are updatred in near real-time
+  - Read Only
+  - Great for dynamic content that needs to be available at low-latency in few regions
+  
+  
+### CloudFront Signed URL / Signed Cookies
+- Allow access to content only via signed url/cookie
+- When using cloudfront signed url/cookie we attach a policy with
+  - Includes URL expiration
+  - Include IP ranges to access data
+  - Trusted signers (which AWS acocunts can create signed URLs)
+- The URL can be valid from few minutes to years
+- Signed url give access to individual file
+- Signed access gives access to multiple files
+  
+  
+### CloudFront Signed URL VS S3 Pre-Signed URL
+- CloudFront Signed URL
+  - Allow access to a path, no matter the origin (could be S3, EC2 etc.)
+  - Account wide key-pair, only the root can manage it
+  - Can filter bu IP, path, date, expiration
+  - Can leverage caching features
+- S3 Pre-Signed URL
+  - Issue a request as the person who pre-signed the url (the requester got the same rights as the one who signed the url)
+  - Uses IAM key for the signing
+  - Limited Lifetime
+
+  
 -----
 
 Amazon CloudFront provides several mechanisms to allow you to serve private content. These include:

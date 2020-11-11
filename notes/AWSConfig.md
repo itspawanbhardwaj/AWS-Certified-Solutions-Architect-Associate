@@ -1,0 +1,10 @@
+- It helps with auditing and recording compliance of your aws resources
+- Helps record configuration and changes over time
+- Store the config data to S3
+- AWS Config can help solve questions like
+  - Is there unrestricted ssh access to any SG
+  - Do the buckets have any public access
+  - How has ALB config changed overtime
+  - Track ACM expiration
+- Can use AWS managed config rules or create custom config rules using lambda
+- 

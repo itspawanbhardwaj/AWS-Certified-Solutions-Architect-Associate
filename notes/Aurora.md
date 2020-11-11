@@ -1,6 +1,9 @@
 Aurora
 ---
 
+Amazon Aurora is a MySQL compatible relational database engine that combines the speed and availability of high-end commercial databases with the simplicity and cost-effectiveness of open source databases Amazon Aurora provides up to five times better performance than MySQL at a price point one tenth that of a commercial database while delivering similar performance and availability.
+
+
 Amazon Aurora MySQL delivers up to five times the performance of MySQL without requiring any changes to most MySQL applications; similarly, Amazon Aurora PostgreSQL delivers up to three times the performance of PostgreSQL. Amazon RDS manages your Amazon Aurora databases, handling time-consuming tasks such as provisioning, patching, backup, recovery, failure detection and repair.
 
 - Starts with 10GB, Scale in 10GB increments to 64TB (storage autoscaling)
@@ -21,7 +24,7 @@ Types of replica
 Backups
 ----------
 - Automatic **backups** are always enabled on Aurora. backups do not impact the database performance
-- You can also take **snapshots** with Aurora. This also doesnot impact on performance.
+- You can also take **snapshots** with Aurora. This also does not impact on performance.
 - You can share snapshots with other AWS account
 ------
 

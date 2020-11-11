@@ -1,5 +1,7 @@
 # Cloud trail
 ---
+Logs every API call
+
 AWS Cloud trail is a web service that records AWS API calls for your account and delivers log files to you.The recorded information includes:
 
 	The identity of the API caller

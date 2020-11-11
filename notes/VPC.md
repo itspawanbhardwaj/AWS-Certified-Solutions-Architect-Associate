@@ -2,6 +2,17 @@
 ---
 http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html
 
+Amazon virtual private cloud (VPC) lets you provisional logically isolated section of the Amazon Web Services (AWS) cloud where you can launch aws resources in a virtual network that you define. You have complete control over your virtual networking environment including selection of your own IP address range, creation of subnets and configuration of route table and network gateways.
+
+
+VPC Peering
+---
+- Allows you to connect one vpc with another via a direct network route using private IP addresses
+- Instances behave as if they were on the same private network
+- You can peer vpc with other AWS accounts as well as with other vpc's in the same account
+- Peering is in a star configuration that is one Central vpc peers with 4 others. NO TRANSITIVE PEERING. (Transitive peering means you can't peer through one VPC to another)
+- You can peer between regions
+
 Security groups
 ---------------
 - first line of defence
@@ -39,7 +50,8 @@ Use a Public subnet for resources that must be connected to the internet, and a 
 ---
 - Think of a VPC as a logical datacenter in AWS
 - Consists of IGWs (or virtual private gateways), Route tables, network access control lists, subnets and Security groups
-- 1 subnet = 1 AZ
+- 1 subnet can be in 1 AZ
+- 1 AZ can have Multiple subnets
 - Security groups are stateful; Network Access Control Lists are stateless
 - NO TRANSITIVE PEERING
 
@@ -69,7 +81,7 @@ NAT instances
 NAT Gateway:
 ------------
 - Redudant inside the availibility zone
-- preffered by the interprise
+- preffered by the enterprise
 - starts at 5GBps and scales currently to 45Gbps
 - No need to patch
 - Not assocoates with security groups
@@ -77,13 +89,15 @@ NAT Gateway:
 - Remember to update your route tables
 - No need to disable Source/ destinaiton checks
 
+If you have resources in multiple availability zones and they share one nat gateway, in the event that the nat gateway's availability zone is down, resources in the other availability zones loose internet access. To create an availability zone-independent architecture, create and nat gateway in each availability zone and configure your routing to ensure that resources use the nat gateway in the same availability zone.
+
 -----------------------------
 
 NACL: network account control access list
 ----------------------------------------------
 
 - **Ephemeral ports**: An Ephemeral port is a short lived transport protocol port for internet protocol communications.
-- NAT Gateway uses 124-65535
+- NAT Gateway uses 124-65535 ports
 - VPC automatically comes with a default network ACL, and by default it allows all outbound and inbound traffic.
 - You can create custom network ACLs. By default, each custom network ACL denies all inbound and outbound traffic until you add rules.
 - Each subnet in your VPC must be associated with a network ACL. If you dont explicitly associate a subnet with a network ACL, the subnet is automatically associated with the default network ACL.
@@ -140,8 +154,14 @@ AWS Direct connect is a cloud service solution that makes it easy to establish a
 
 ---------------------------------------------
 
-There are two types of VPC endpoints:
+VPC endpoints:
 ---
+Vpc endpoint enables you to privately connect your vpc to supported aws services and vpc endpoint services powered by private link without requiring an internet Gateway, nat device, VPN connection, or AWS direct connect connection. Instances in your vpc do not require public IP addresses to communicate with resources in the service. Traffic between your vpc and the other service does not leave the Amazon network. 
+
+Endpoints are virtual devices. They are horizontally scaled, redundant, and highly available vpc component that allow communication between instances in your vpc and services without imposing availability risk or bandwidth constraint on your network Traffic.
+
+There are two types of VPC endpoints
+
 **interface endpoints:**
 * An interface endpoint is an elastic network interface with a private IP address that serves as an entry point for traffic destined to a supported services.
 
